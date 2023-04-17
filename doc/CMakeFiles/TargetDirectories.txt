@@ -1,0 +1,6 @@
+/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/CMakeFiles/doc.dir
+/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/CMakeFiles/doxygen.dir
+/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/CMakeFiles/sphinx-HTML.dir
+/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/CMakeFiles/sphinx-LATEX.dir
+/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/CMakeFiles/edit_cache.dir
+/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/CMakeFiles/rebuild_cache.dir

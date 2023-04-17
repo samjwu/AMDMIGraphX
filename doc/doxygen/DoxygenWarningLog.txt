@@ -1,0 +1,3 @@
+warning: source '/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/src/include' is not a readable file or directory... skipping.
+warning: source '/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/src/targets/cpu/include' is not a readable file or directory... skipping.
+warning: source '/home/samwu103/Documents/GitHub/AMDMIGraphX/doc/src/targets/gpu/include' is not a readable file or directory... skipping.

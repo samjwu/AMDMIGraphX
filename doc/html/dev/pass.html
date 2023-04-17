@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passes &mdash; MIGraphX 2.6.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Matchers" href="matchers.html" />
+    <link rel="prev" title="Quantization" href="quantization.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MIGraphX
+          </a>
+              <div class="version">
+                2.6.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../py_user_guide.html">Python User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_user_guide.html">C++ User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver.html">MIGraphX Driver</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../contributor_guide.html">Contributor Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../dev_intro.html">MIGraphX Fundamentals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators.html">Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="program.html">Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="targets.html">Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantization.html">Quantization</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pass">pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dead-code-elimination">dead_code_elimination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eliminate-common-subexpression">eliminate_common_subexpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eliminate-concat">eliminate_concat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eliminate-contiguous">eliminate_contiguous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eliminate-identity">eliminate_identity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eliminate-pad">eliminate_pad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#propagate-constant">propagate_constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rewrite-batchnorm">rewrite_batchnorm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rewrite-rnn">rewrite_rnn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#schedule">schedule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simplify-algebra">simplify_algebra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simplify-reshapes">simplify_reshapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="matchers.html">Matchers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MIGraphX</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../contributor_guide.html">Contributor Guide</a></li>
+      <li class="breadcrumb-item active">Passes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/dev/pass.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="passes">
+<h1>Passes<a class="headerlink" href="#passes" title="Permalink to this headline"></a></h1>
+<div class="section" id="pass">
+<h2>pass<a class="headerlink" href="#pass" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::pass” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="dead-code-elimination">
+<h2>dead_code_elimination<a class="headerlink" href="#dead-code-elimination" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::dead_code_elimination” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="eliminate-common-subexpression">
+<h2>eliminate_common_subexpression<a class="headerlink" href="#eliminate-common-subexpression" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::eliminate_common_subexpression” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="eliminate-concat">
+<h2>eliminate_concat<a class="headerlink" href="#eliminate-concat" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::eliminate_concat” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="eliminate-contiguous">
+<h2>eliminate_contiguous<a class="headerlink" href="#eliminate-contiguous" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::eliminate_contiguous” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="eliminate-identity">
+<h2>eliminate_identity<a class="headerlink" href="#eliminate-identity" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::eliminate_identity” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="eliminate-pad">
+<h2>eliminate_pad<a class="headerlink" href="#eliminate-pad" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::eliminate_pad” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="propagate-constant">
+<h2>propagate_constant<a class="headerlink" href="#propagate-constant" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::propagate_constant” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="rewrite-batchnorm">
+<h2>rewrite_batchnorm<a class="headerlink" href="#rewrite-batchnorm" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::rewrite_batchnorm” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="rewrite-rnn">
+<h2>rewrite_rnn<a class="headerlink" href="#rewrite-rnn" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::rewrite_rnn” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="schedule">
+<h2>schedule<a class="headerlink" href="#schedule" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::schedule” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="simplify-algebra">
+<h2>simplify_algebra<a class="headerlink" href="#simplify-algebra" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::simplify_algebra” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+<div class="section" id="simplify-reshapes">
+<h2>simplify_reshapes<a class="headerlink" href="#simplify-reshapes" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenstruct: Cannot find class “migraphx::internal::simplify_reshapes” in doxygen xml output for project “proj” from directory: /home/samwu103/Documents/GitHub/AMDMIGraphX/doc/doxygen/xml</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quantization.html" class="btn btn-neutral float-left" title="Quantization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="matchers.html" class="btn btn-neutral float-right" title="Matchers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2023, AMD.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
